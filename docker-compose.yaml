@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: db
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    volumes:
+      - ./backend:/app/backend
+    ports:
+      - 8001:8000
+    depends_on:
+      - db
+    command: ['php', 'artisan', 'migrate:fresh', '--seed']
+    networks:
+      - local-network
+
+  frontend:
+    container_name: frontend
+    tty: true
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app/frontend
+    ports:
+      - 3001:8080
+    depends_on:
+      - backend
+    networks:
+      - local-network
+
+  db:
+    image: mariadb:10.6.3
+    container_name: db
+    environment:
+      MARIADB_DATABASE: laravel
+      MARIADB_USER: root
+      MARIADB_PASSWORD: root
+      MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql/
+    ports:
+      - 3366:3306
+    networks:
+      - local-network
+
+networks:
+  local-network:
+    driver: bridge
