@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use function PHPUnit\Framework\isNull;
 
 class TaskController extends Controller
 {
@@ -14,7 +17,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::simplePaginate(10);
+        if(!is_null(Auth::user())) {
+            return Task::where('user_id','=', Auth::user()->id)->simplePaginate(10);
+        } else {
+            return response()->json(['message' => ['vc precisa estar logado']], 401);
+        }
     }
 
     /**
