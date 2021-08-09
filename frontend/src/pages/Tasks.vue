@@ -1,12 +1,17 @@
 <template>
   <div>
-    <h1>Pagina de tarefas</h1>
+    <h1>Tarefas</h1>
     <div v-if="loading">
       carregando
     </div>
-    <pre v-else>
-      {{ tasks }}
-    </pre>
+    <div  v-else>
+
+     <div v-for="task in tasks" class="card" :key="task.id">
+        <div class="card-body">
+          {{ task.title }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,7 +28,7 @@ export default {
   methods: {
     loadTasks () {
       this.loading = true
-      API.get('endpoint')
+      API.get('/tasks')
         .then(({ data }) => {
           this.tasks = data.data
           this.loading = false
