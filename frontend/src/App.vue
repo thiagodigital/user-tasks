@@ -1,24 +1,8 @@
 <template>
   <div id="app" class="container">
-    <HeaderComponent v-if="auth" />
     <router-view/>
   </div>
 </template>
-
-<script>
-import HeaderComponent from '@/components/Header.vue'
-export default {
-  name: 'App',
-  data () {
-    return {
-      auth: false
-    }
-  },
-  components: {
-    HeaderComponent
-  }
-}
-</script>
 
 <style>
 :root{

@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import { state } from '@/services/store'
 
 Vue.use(VueRouter)
-// var isAuthenticated = false
+
 const routes = [
   {
     path: '/',
@@ -42,9 +43,16 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-//   else next()
-// })
+router.beforeEach((to, from, next) => {
+  const user = JSON.parse(window.localStorage.getItem('user'))
+
+  if (to.meta.requiresAuth) {
+    if (!user) {
+      next({ name: 'Login' })
+    } else {
+      next()
+    }
+  } else next()
+})
 
 export default router

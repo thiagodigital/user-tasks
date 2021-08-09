@@ -23,6 +23,7 @@
 <script>
 import API from '@/services/API'
 import GuestMessage from '@/components/GuestMessage.vue'
+// import { state } from '@/services/store'
 
 export default {
   components: { GuestMessage },
@@ -40,17 +41,18 @@ export default {
       API.post('auth/login', this.form)
         .then(({ data }) => {
           this.message = ''
-          console.log('asdasds', data)
+          // state.user = data.user
+          window.localStorage.setItem('token', 'bearer ' + data.access_token)
+          window.localStorage.setItem('user', JSON.stringify(data.user))
+          this.$router.push('/tasks')
         })
         .catch(({ response }) => {
           const status = response.status
           const data = response.data
           if (status === 422) {
             this.message = data
-            console.log(this.message, status)
           } else if (status === 401) {
             this.message = data
-            console.log(this.message, status)
           }
         })
     }
