@@ -25,9 +25,20 @@ class UserAuthController extends Controller
      */
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:5',
+            'name' => 'required|between:2,100',
+            'email' => 'required|email|max:100|unique:users',
+            'password' => 'required|confirmed|min:5',
+        ],[
+            'name.required' => 'Nome é obrigatório',
+            'name.between' => 'Nome precisa ter mais de 2 e menos que 100 caracteres',
+            'email.required' => 'Email é obrigatório',
+            'email.email' => 'Email tem que ser válido',
+            'email.max' => 'Email tem que ter até 100 caracteres',
+            'email.unique' => 'Email já cadastrado',
+            'password.required' => 'Senha é obrigatória',
+            'password.confirmed' => 'Senhas não conferem',
+            'password.min' => 'Senha precisa ter no minimo 5 caracteres',
+
         ]);
 
         if($validator->fails()){
@@ -40,7 +51,7 @@ class UserAuthController extends Controller
         ));
 
         return response()->json([
-            'message' => 'User registered successfully',
+            'message' => 'Usuário registrado com sucesso',
             'user' => $user
         ], 201);
     }
@@ -52,7 +63,13 @@ class UserAuthController extends Controller
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|string|min:5',
+            'password' => 'required|min:5',
+        ],[
+            'email.required' => 'Email é obrigatório',
+            'email.email' => 'Email tem que ser válido',
+            'password.required' => 'Senha é obrigatória',
+            'password.min' => 'Senha precisa ter no minimo 5 caracteres',
+
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +77,7 @@ class UserAuthController extends Controller
         }
 
         if (! $token = JWTAuth::attempt($validator->validated())) {
-            return response()->json(['status' => 'failed', 'message' => 'Invalid email and password.', 'error' => 'Unauthorized'], 401);
+            return response()->json(['message' => ['Email ou senha invalidos']], 401);
         }
 
         return $this->createNewToken($token);
@@ -105,6 +122,6 @@ class UserAuthController extends Controller
      */
     public function logout() {
         Auth::logout();
-        return response()->json(['status' => 'success', 'message' => 'User logged out successfully']);
+        return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 }
