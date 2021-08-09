@@ -1,6 +1,15 @@
 <template>
-  <div>
-    <h1>Tarefas</h1>
+  <div class="py-4">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div class="brand">Task<span>in</span></div>
+      <div class="d-flex justify-content-between align-items-end">
+        <button type="button" class="btn btn-link text-danger">Sair</button>
+      </div>
+    </div>
+    <FormTask />
+    <div>
+      <h6 class="text-muted mb-4">Olá {{ user ? user.name : '' }}, <span class="tarefas"> essa é sua lista de Tarefas.</span></h6>
+    </div>
     <div v-if="loading">
       carregando
     </div>
@@ -17,12 +26,17 @@
 
 <script>
 import API from '@/services/API'
+import FormTask from '@/components/FormTask'
 
 export default {
-  data: function () {
+  components: {
+    FormTask
+  },
+  data () {
     return {
       loading: true,
-      tasks: []
+      tasks: [],
+      user: null
     }
   },
   methods: {
@@ -40,6 +54,7 @@ export default {
     }
   },
   mounted () {
+    this.user = JSON.parse(window.localStorage.getItem('user'))
     console.log('rodando')
     this.loadTasks()
   }

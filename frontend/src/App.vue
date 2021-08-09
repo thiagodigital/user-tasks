@@ -11,8 +11,8 @@
   --bs-muted: #fcfbfe;
   --bs-bgcard: #fafafa;
 }
-
 html, body {
+  border-top: 3px solid var(--bs-primary);
   background: var(--bs-muted);
   font-family: 'Ubuntu', sans-serif;
 }
