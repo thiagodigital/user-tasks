@@ -1,6 +1,6 @@
 <template>
     <div class="row d-flex justify-content-center align-items-center form-block">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
+        <div class="col-sm-6 col-md-8 col-lg-6 col-md-offset-4">
             <div class="account-wall text-center">
                 <div class="brand">Task<span>in</span></div>
                 <form v-on:submit.prevent="makeLogin()"  class="form-signin">
@@ -23,6 +23,7 @@
 <script>
 import API from '@/services/API'
 import GuestMessage from '@/components/GuestMessage.vue'
+// import { state } from '@/services/store'
 
 export default {
   components: { GuestMessage },
@@ -40,17 +41,18 @@ export default {
       API.post('auth/login', this.form)
         .then(({ data }) => {
           this.message = ''
-          console.log('asdasds', data)
+          // state.user = data.user
+          window.localStorage.setItem('token', data.access_token)
+          window.localStorage.setItem('user', JSON.stringify(data.user))
+          this.$router.push('/tasks')
         })
         .catch(({ response }) => {
           const status = response.status
           const data = response.data
           if (status === 422) {
             this.message = data
-            console.log(this.message, status)
           } else if (status === 401) {
             this.message = data
-            console.log(this.message, status)
           }
         })
     }

@@ -1,38 +1,33 @@
 <template>
   <div id="app" class="container">
-    <HeaderComponent v-if="auth" />
     <router-view/>
   </div>
 </template>
-
-<script>
-import HeaderComponent from '@/components/Header.vue'
-export default {
-  name: 'App',
-  data () {
-    return {
-      auth: false
-    }
-  },
-  components: {
-    HeaderComponent
-  }
-}
-</script>
 
 <style>
 :root{
   --bs-primary: #714ff9;
   --bs-primary-hover: #5939d8;
-  --bs-muted: #fcfbfe;
+  --bs-muted: #f6f3fe;
   --bs-bgcard: #fafafa;
 }
-
 html, body {
+  border-top: 3px solid var(--bs-primary);
   background: var(--bs-muted);
   font-family: 'Ubuntu', sans-serif;
 }
-
+.bg-primary {
+  background-color: var(--bs-primary) !important;
+}
+.custom-card.bg-muted {
+    background: #f6f3fe;
+    color: #c4bed2;
+    border-color: #edebf3;
+    box-shadow: none;
+}
+.custom-card.bg-muted .badge{
+  background-color: #c4bed4 !important;
+}
 .btn-primary {
   background-color: var(--bs-primary);
   border-color: var(--bs-primary-hover);
@@ -50,6 +45,14 @@ html, body {
 }
 .form-block {
   height: 100vh;
+}
+.custom-card {
+  border-radius: 15px;
+  border: 1px solid #fff;
+  background-color: var(--bs-bgcard);
+  -moz-box-shadow: 0px 2px 18px rgba(234, 228, 254, 0.9);
+  -webkit-box-shadow: 0px 2px 18px rgba(234, 228, 254, 0.9);
+  box-shadow: 0px 2px 18px rgba(234, 228, 254, 0.9);
 }
 .form-signin
 {

@@ -23,6 +23,7 @@ class TaskFactory extends Factory
     {
         return [
             'title'  => $this->faker->sentence(4),
+            'user_id' => 1,
             'label' => $this->faker->numberBetween(0, 2),
             'status' => $this->faker->boolean(30),
             'date'   => $this->faker->dateTimeAD(),
