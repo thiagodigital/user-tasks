@@ -1,6 +1,6 @@
 <template>
     <div class="row d-flex justify-content-center align-items-center form-block">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
+        <div class="col-sm-6 col-md-8 col-lg-6 col-md-offset-4">
             <div class="account-wall text-center">
                 <div class="brand">Task<span>in</span></div>
                 <form v-on:submit.prevent="makeLogin()"  class="form-signin">
@@ -42,7 +42,7 @@ export default {
         .then(({ data }) => {
           this.message = ''
           // state.user = data.user
-          window.localStorage.setItem('token', 'bearer ' + data.access_token)
+          window.localStorage.setItem('token', data.access_token)
           window.localStorage.setItem('user', JSON.stringify(data.user))
           this.$router.push('/tasks')
         })

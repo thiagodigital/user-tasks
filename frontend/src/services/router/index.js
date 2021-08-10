@@ -6,10 +6,6 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Home'
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('@/pages/guest/Login.vue')
@@ -34,6 +30,11 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '*',
+    name: 'Home',
+    redirect: '/login'
   }
 ]
 
